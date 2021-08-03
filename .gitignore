@@ -41,3 +41,6 @@
 
 # VSCode config
 .vscode
+
+# Build directory
+build
