@@ -3,7 +3,7 @@
 
 # - Set CMake requirements then declare project
 cmake_minimum_required(VERSION 3.2)
-project(MPAGSCipher VERSION 0.1.0)
+project(MPAGSCipher VERSION 0.2.0)
 
 # - When Makefiles are generated, output all command lines by default
 #   Do this to begin with so it's easy to see what compiler command/flags
@@ -24,6 +24,8 @@ add_executable(mpags-cipher
   MPAGSCipher/TransformChar.cpp
   MPAGSCipher/ProcessCommandLine.cpp
   MPAGSCipher/ProcessCommandLine.hpp
+  MPAGSCipher/RunCaesarCipher.cpp
+  MPAGSCipher/RunCaesarCipher.hpp
   )
 
 target_include_directories(mpags-cipher
