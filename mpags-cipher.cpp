@@ -1,9 +1,16 @@
 #include <cctype>
 #include <iostream>
 #include <string>
+#include <vector>
 
-int main()
+int main(int argc, char* argv[])
 {
+    // Convert the command-line arguments into a more easily usable form
+    const std::vector<std::string> cmdLineArgs{argv, argv + argc};
+    for (std::size_t i{0}; i < cmdLineArgs.size(); ++i) {
+        std::cout << cmdLineArgs[i] << std::endl;
+    }
+
     // Initialise variables
     char c{'x'};
     std::string out_text;
