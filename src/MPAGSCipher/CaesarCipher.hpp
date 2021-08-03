@@ -1,6 +1,8 @@
 #ifndef MPAGSCIPHER_CAESARCIPHER_HPP
 #define MPAGSCIPHER_CAESARCIPHER_HPP
 
+#include "CipherMode.hpp"
+
 #include <cstddef>
 #include <string>
 #include <vector>
@@ -16,7 +18,7 @@ class CaesarCipher {
 
     /// Apply cipher to input text
     std::string applyCipher(const std::string& inputText,
-                            const bool encrypt) const;
+                            const CipherMode cipherMode) const;
 
   private:
     const std::vector<char> alphabet_{

@@ -1,6 +1,8 @@
 #ifndef MPAGSCIPHER_PROCESSCOMMANDLINE_HPP
 #define MPAGSCIPHER_PROCESSCOMMANDLINE_HPP
 
+#include "CipherMode.hpp"
+
 #include <string>
 #include <vector>
 
@@ -15,8 +17,8 @@ struct ProgramSettings {
     std::string outputFile;
     /// Key to be used in encrypting/decrypting routine
     std::string cipherKey;
-    /// Flag indicating whether the cipher should encrypt (true) or decrypt (false)
-    bool encrypt;
+    /// Flag indicating the mode in which the cipher should run (i.e. encrypt or decrypt)
+    CipherMode cipherMode;
 };
 
 bool processCommandLine(const std::vector<std::string>& cmdLineArgs,
