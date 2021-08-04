@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
             << "                   Stdout will be used if not supplied\n\n"
             << "                   Stdout will be used if not supplied\n\n"
             << "  -c CIPHER        Specify the cipher to be used to perform the encryption/decryption\n"
-            << "                   CIPHER can be caesar or playfair (not yet implemented) - caesar is the default\n\n"
+            << "                   CIPHER can be caesar or playfair - caesar is the default\n\n"
             << "  -k KEY           Specify the cipher KEY\n"
             << "                   A null key, i.e. no encryption, is used if not supplied\n\n"
             << "  --encrypt        Will use the cipher to encrypt the input text (default behaviour)\n\n"
@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
     // Like help, requires no further action,
     // so return from main with zero to indicate success
     if (settings.versionRequested) {
-        std::cout << "0.3.0" << std::endl;
+        std::cout << "0.4.0" << std::endl;
         return 0;
     }
 

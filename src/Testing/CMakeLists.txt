@@ -28,3 +28,8 @@ add_test(NAME test-processcommandline COMMAND testProcessCommandLine)
 add_executable(testCaesarCipher testCaesarCipher.cpp)
 target_link_libraries(testCaesarCipher PRIVATE Catch MPAGSCipher)
 add_test(NAME test-caesarcipher COMMAND testCaesarCipher)
+
+# Test PlayfairCipher
+add_executable(testPlayfairCipher testPlayfairCipher.cpp)
+target_link_libraries(testPlayfairCipher PRIVATE Catch MPAGSCipher)
+add_test(NAME test-playfaircipher COMMAND testPlayfairCipher)
