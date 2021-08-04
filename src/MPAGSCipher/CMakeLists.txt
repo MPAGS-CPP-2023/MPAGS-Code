@@ -6,6 +6,8 @@ add_library(MPAGSCipher STATIC
   CaesarCipher.cpp
   CipherMode.hpp
   CipherType.hpp
+  PlayfairCipher.hpp
+  PlayfairCipher.cpp
   ProcessCommandLine.hpp
   ProcessCommandLine.cpp
   TransformChar.hpp
