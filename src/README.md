@@ -93,20 +93,38 @@ file supplied with the `-o` option.
 ## Source code layout
 ```
 .
-├── README.md                       Top-level README, describes layout of the repository
+├── README.md                           Top-level README, describes layout of the repository
 ├── build
 └── src
-    ├── CMakeLists.txt              CMake build script
-    ├── LICENSE                     License file, in our case MIT
-    ├── MPAGSCipher                 Subdirectory for MPAGSCipher library code
-    │   ├── ProcessCommandLine.cpp
-    │   ├── ProcessCommandLine.hpp
-    │   ├── RunCaesarCipher.cpp
-    │   ├── RunCaesarCipher.hpp
-    │   ├── TransformChar.cpp
-    │   └── TransformChar.hpp
-    ├── README.md                   This file, describes the project
-    └── mpags-cipher.cpp            Main program C++ source file
+    ├── CMakeLists.txt                  CMake build script
+    ├── LICENSE                         License file, in our case MIT
+    ├── MPAGSCipher                     Subdirectory for MPAGSCipher library code
+    │   ├── CaesarCipher.cpp
+    │   ├── CaesarCipher.hpp
+    │   ├── CipherMode.hpp
+    │   ├── CMakeLists.txt
+    │   ├── ProcessCommandLine.cpp
+    │   ├── ProcessCommandLine.hpp
+    │   ├── TransformChar.cpp
+    │   └── TransformChar.hpp
+    ├── mpags-cipher.cpp                Main program C++ source file
+    ├── README.md                       This file, describes the project
+    └── Testing                         Subdirectory for testing the MPAGSCipher library
+        ├── catch.hpp
+        ├── CMakeLists.txt
+        ├── testCaesarCipher.cpp
+        ├── testCatch.cpp
+        ├── testHello.cpp
+        ├── testProcessCommandLine.cpp
+        └── testTransformChar.cpp
+```
+
+## Testing the MPAGSCipher library
+
+The build process will also compile various unit tests for the MPAGSCipher library.
+These can be executed from the build directory as follows:
+```
+$ ctest [options - see ctest man page for details]
 ```
 
 ## Copying
