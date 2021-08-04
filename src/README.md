@@ -97,6 +97,9 @@ file supplied with the `-o` option.
 ├── build
 └── src
     ├── CMakeLists.txt                  CMake build script
+    ├── Documentation                   Subdirectory for documentation of the MPAGCipher library
+    │   ├── CMakeLists.txt
+    │   └── Doxyfile.in
     ├── LICENSE                         License file, in our case MIT
     ├── MPAGSCipher                     Subdirectory for MPAGSCipher library code
     │   ├── CaesarCipher.cpp

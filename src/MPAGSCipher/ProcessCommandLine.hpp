@@ -6,6 +6,15 @@
 #include <string>
 #include <vector>
 
+/**
+ * \file ProcessCommandLine.hpp
+ * \brief Contains the declarations of the data structures and functions associated with the processing of command-line arguments
+ */
+
+/**
+ * \struct ProgramSettings
+ * \brief Holds the settings of the program that can be modified by command-line arguments
+ */
 struct ProgramSettings {
     /// Indicates the presence of the help flag in the arguments
     bool helpRequested;
@@ -21,6 +30,13 @@ struct ProgramSettings {
     CipherMode cipherMode;
 };
 
+/**
+ * \brief Processes the command-line arguments and modifies accordingly the program settings
+ *
+ * \param cmdLineArgs the command-line arguments to be processed
+ * \param settings the program settings to be modified based upon the arguments received
+ * \return true if the arguments could be successfully parsed, false otherwise
+ */
 bool processCommandLine(const std::vector<std::string>& cmdLineArgs,
                         ProgramSettings& settings);
 
