@@ -6,7 +6,7 @@ Thomas Latham, Ben Morgan, Mark Slater, Matt Williams, Luke Kreczko
 
 ## Building `mpags-cipher`
 Compilation of `mpags-cipher` requires the [CMake](http://www.cmake.org)
-build tool, plus a C++11 compatible compiler (GCC 8 or better, Clang 8
+build tool, plus a C++17 compatible compiler (GCC 8 or better, Clang 8
 or better are recommended) on a UNIX operating system.
 Windows platforms with Visual Studio 2015 or better are also expected to
 work, but not tested.

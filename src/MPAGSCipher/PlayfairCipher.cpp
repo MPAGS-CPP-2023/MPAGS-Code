@@ -108,24 +108,26 @@ std::string PlayfairCipher::applyCipher(const std::string& inputText,
         // Find the coordinates in the grid for each digraph
         PlayfairCoords pointOne{charLookup_.at(outputText[i])};
         PlayfairCoords pointTwo{charLookup_.at(outputText[i + 1])};
+        auto& [rowOne, columnOne]{pointOne};
+        auto& [rowTwo, columnTwo]{pointTwo};
 
         // Find whether the two points are on a row, a column or form a rectangle/square
         // Then apply the appropriate rule to these coords to get new coords
-        if (pointOne.first == pointTwo.first) {
+        if (rowOne == rowTwo) {
             // Row - so increment/decrement the column indices (modulo the grid dimension)
-            pointOne.second = (pointOne.second + shift) % gridSize_;
-            pointTwo.second = (pointTwo.second + shift) % gridSize_;
+            columnOne = (columnOne + shift) % gridSize_;
+            columnTwo = (columnTwo + shift) % gridSize_;
 
-        } else if (pointOne.second == pointTwo.second) {
+        } else if (columnOne == columnTwo) {
             // Column - so increment/decrement the row indices (modulo the grid dimension)
-            pointOne.first = (pointOne.first + shift) % gridSize_;
-            pointTwo.first = (pointTwo.first + shift) % gridSize_;
+            rowOne = (rowOne + shift) % gridSize_;
+            rowTwo = (rowTwo + shift) % gridSize_;
 
         } else {
             // Rectangle/Square - so keep the rows the same and swap the columns
             // (NB the operation is actually the same regardless of encrypt/decrypt
             // since applying the same operation twice gets you back to where you were)
-            std::swap(pointOne.second, pointTwo.second);
+            std::swap(columnOne, columnTwo);
         }
 
         // Find the letters associated with the new coords and make the replacements

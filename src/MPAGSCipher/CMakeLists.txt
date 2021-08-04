@@ -18,5 +18,5 @@ target_include_directories(MPAGSCipher
   PUBLIC ${CMAKE_CURRENT_LIST_DIR}
   )
 target_compile_features(MPAGSCipher
-  PUBLIC cxx_std_11
+  PUBLIC cxx_std_17
   )
