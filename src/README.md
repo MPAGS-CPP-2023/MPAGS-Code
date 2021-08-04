@@ -67,6 +67,9 @@ Available options:
   -o FILE          Write processed text to FILE
                    Stdout will be used if not supplied
 
+  -c CIPHER        Specify the cipher to be used to perform the encryption/decryption
+                   CIPHER can be caesar or playfair (not yet implemented) - caesar is the default
+
   -k KEY           Specify the cipher KEY
                    A null key, i.e. no encryption, is used if not supplied
 
@@ -105,6 +108,7 @@ file supplied with the `-o` option.
     │   ├── CaesarCipher.cpp
     │   ├── CaesarCipher.hpp
     │   ├── CipherMode.hpp
+    │   ├── CipherType.hpp
     │   ├── CMakeLists.txt
     │   ├── ProcessCommandLine.cpp
     │   ├── ProcessCommandLine.hpp

@@ -2,6 +2,7 @@
 #define MPAGSCIPHER_PROCESSCOMMANDLINE_HPP
 
 #include "CipherMode.hpp"
+#include "CipherType.hpp"
 
 #include <string>
 #include <vector>
@@ -28,6 +29,8 @@ struct ProgramSettings {
     std::string cipherKey;
     /// Flag indicating the mode in which the cipher should run (i.e. encrypt or decrypt)
     CipherMode cipherMode;
+    /// Flag indicating which cipher to use (e.g. Caesar, Playfair, etc.)
+    CipherType cipherType;
 };
 
 /**

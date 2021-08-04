@@ -68,6 +68,29 @@ bool processCommandLine(const std::vector<std::string>& cmdLineArgs,
             settings.cipherMode = CipherMode::Encrypt;
         } else if (cmdLineArgs[i] == "--decrypt") {
             settings.cipherMode = CipherMode::Decrypt;
+        } else if (cmdLineArgs[i] == "-c") {
+            // Handle cipher type option
+            // Next element is the name of the cipher, unless -c is the last argument
+            if (i == nCmdLineArgs - 1) {
+                std::cerr << "[error] -c requires a string argument"
+                          << std::endl;
+                // Set the flag to indicate the error and terminate the loop
+                processStatus = false;
+                break;
+            } else {
+                // Got the cipher name, so assign the value and advance past it
+                if (cmdLineArgs[i + 1] == "caesar") {
+                    settings.cipherType = CipherType::Caesar;
+                } else if (cmdLineArgs[i + 1] == "playfair") {
+                    settings.cipherType = CipherType::Playfair;
+                } else {
+                    std::cerr << "[error] unknown cipher '" << cmdLineArgs[i + 1]
+                              << "'\n";
+                    processStatus = false;
+                    break;
+                }
+                ++i;
+            }
         } else {
             // Have encoutered an unknown flag, output an error message,
             // set the flag to indicate the error and terminate the loop

@@ -1,5 +1,6 @@
 #include "CaesarCipher.hpp"
 #include "CipherMode.hpp"
+#include "CipherType.hpp"
 #include "ProcessCommandLine.hpp"
 #include "TransformChar.hpp"
 
@@ -15,7 +16,8 @@ int main(int argc, char* argv[])
     const std::vector<std::string> cmdLineArgs{argv, argv + argc};
 
     // Options that might be set by the command-line arguments
-    ProgramSettings settings{false, false, "", "", "", CipherMode::Encrypt};
+    ProgramSettings settings{
+        false, false, "", "", "", CipherMode::Encrypt, CipherType::Caesar};
 
     // Process command line arguments
     const bool cmdLineStatus{processCommandLine(cmdLineArgs, settings)};
@@ -30,7 +32,7 @@ int main(int argc, char* argv[])
     if (settings.helpRequested) {
         // Line splitting for readability
         std::cout
-            << "Usage: mpags-cipher [-h/--help] [--version] [-i <file>] [-o <file>] [-k <key>] [--encrypt/--decrypt]\n\n"
+            << "Usage: mpags-cipher [-h/--help] [--version] [-i <file>] [-o <file>] [-c <cipher>] [-k <key>] [--encrypt/--decrypt]\n\n"
             << "Encrypts/Decrypts input alphanumeric text using classical ciphers\n\n"
             << "Available options:\n\n"
             << "  -h|--help        Print this help message and exit\n\n"
@@ -40,6 +42,8 @@ int main(int argc, char* argv[])
             << "  -o FILE          Write processed text to FILE\n"
             << "                   Stdout will be used if not supplied\n\n"
             << "                   Stdout will be used if not supplied\n\n"
+            << "  -c CIPHER        Specify the cipher to be used to perform the encryption/decryption\n"
+            << "                   CIPHER can be caesar or playfair (not yet implemented) - caesar is the default\n\n"
             << "  -k KEY           Specify the cipher KEY\n"
             << "                   A null key, i.e. no encryption, is used if not supplied\n\n"
             << "  --encrypt        Will use the cipher to encrypt the input text (default behaviour)\n\n"
@@ -85,9 +89,22 @@ int main(int argc, char* argv[])
         }
     }
 
-    // Run the Caesar cipher (using the specified key and encrypt/decrypt flag) on the input text
-    CaesarCipher cipher{settings.cipherKey};
-    std::string outputText{cipher.applyCipher(inputText, settings.cipherMode)};
+    std::string outputText;
+
+    switch (settings.cipherType) {
+        case CipherType::Caesar: {
+            // Run the Caesar cipher (using the specified key and encrypt/decrypt flag) on the input text
+            CaesarCipher cipher{settings.cipherKey};
+            outputText = cipher.applyCipher(inputText, settings.cipherMode);
+            break;
+        }
+        case CipherType::Playfair: {
+            std::cerr << "[warning] Playfair cipher not yet implemented"
+                      << std::endl;
+            outputText = inputText;
+            break;
+        }
+    }
 
     // Output the encrypted/decrypted text to stdout/file
     if (!settings.outputFile.empty()) {
