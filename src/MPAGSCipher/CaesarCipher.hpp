@@ -43,14 +43,6 @@ class CaesarCipher {
                             const CipherMode cipherMode) const;
 
   private:
-    /// The alphabet - used to determine the cipher character given the plain character and the key
-    const std::vector<char> alphabet_{
-        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-        'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-
-    /// The size of the alphabet
-    const std::size_t alphabetSize_{alphabet_.size()};
-
     /// The cipher key, essentially a constant shift to be applied
     std::size_t key_{0};
 };

@@ -1,9 +1,10 @@
 #include "CaesarCipher.hpp"
+#include "Alphabet.hpp"
 
 #include <iostream>
 #include <string>
 
-CaesarCipher::CaesarCipher(const std::size_t key) : key_{key % alphabetSize_}
+CaesarCipher::CaesarCipher(const std::size_t key) : key_{key % Alphabet::size}
 {
 }
 
@@ -32,7 +33,7 @@ CaesarCipher::CaesarCipher(const std::string& key) : key_{0}
                 return;
             }
         }
-        key_ = std::stoul(key) % alphabetSize_;
+        key_ = std::stoul(key) % Alphabet::size;
     }
 }
 
@@ -47,18 +48,20 @@ std::string CaesarCipher::applyCipher(const std::string& inputText,
     for (const auto& origChar : inputText) {
         // For each character in the input text, find the corresponding position in
         // the alphabet by using an indexed loop over the alphabet container
-        for (std::size_t i{0}; i < alphabetSize_; ++i) {
-            if (origChar == alphabet_[i]) {
+        for (std::size_t i{0}; i < Alphabet::size; ++i) {
+            if (origChar == Alphabet::alphabet[i]) {
                 // Apply the appropriate shift (depending on whether we're encrypting
                 // or decrypting) and determine the new character
                 // Can then break out of the loop over the alphabet
                 switch (cipherMode) {
                     case CipherMode::Encrypt:
-                        processedChar = alphabet_[(i + key_) % alphabetSize_];
+                        processedChar =
+                            Alphabet::alphabet[(i + key_) % Alphabet::size];
                         break;
                     case CipherMode::Decrypt:
-                        processedChar = alphabet_[(i + alphabetSize_ - key_) %
-                                                  alphabetSize_];
+                        processedChar =
+                            Alphabet::alphabet[(i + Alphabet::size - key_) %
+                                               Alphabet::size];
                         break;
                 }
                 break;
