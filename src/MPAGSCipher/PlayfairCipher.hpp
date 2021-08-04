@@ -3,6 +3,7 @@
 
 #include "CipherMode.hpp"
 
+#include <map>
 #include <string>
 
 /**
@@ -41,8 +42,25 @@ class PlayfairCipher {
                             const CipherMode cipherMode) const;
 
   private:
+    /// The grid size
+    const std::string::size_type gridSize_{5};
+
+    /// The key length = grid size^2
+    const std::string::size_type keyLength_{gridSize_ * gridSize_};
+
     /// The cipher key
     std::string key_{""};
+
+    // Lookup tables generated from the key
+
+    /// Type definition for the coordinates in the 5x5 table
+    using PlayfairCoords = std::pair<std::size_t, std::size_t>;
+
+    /// Lookup table to go from the character to the coordinates
+    std::map<char, PlayfairCoords> charLookup_;
+
+    /// Lookup table to go from the coordinates to the character
+    std::map<PlayfairCoords, char> coordLookup_;
 };
 
 #endif

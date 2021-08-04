@@ -44,6 +44,16 @@ void PlayfairCipher::setKey(const std::string& key)
         std::end(key_));
 
     // Store the coordinates of each letter
+    // (at this point the key length must be equal to the square of the grid dimension)
+    for (std::size_t i{0}; i < keyLength_; ++i) {
+        std::size_t row{i / gridSize_};
+        std::size_t column{i % gridSize_};
+
+        auto coords = std::make_pair(row, column);
+
+        charLookup_[key_[i]] = coords;
+        coordLookup_[coords] = key_[i];
+    }
 }
 
 std::string PlayfairCipher::applyCipher(const std::string& inputText,
