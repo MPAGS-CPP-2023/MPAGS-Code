@@ -4,6 +4,7 @@
 #include "PlayfairCipher.hpp"
 #include "ProcessCommandLine.hpp"
 #include "TransformChar.hpp"
+#include "VigenereCipher.hpp"
 
 #include <cctype>
 #include <fstream>
@@ -43,7 +44,7 @@ int main(int argc, char* argv[])
             << "                   Stdout will be used if not supplied\n\n"
             << "                   Stdout will be used if not supplied\n\n"
             << "  -c CIPHER        Specify the cipher to be used to perform the encryption/decryption\n"
-            << "                   CIPHER can be caesar or playfair - caesar is the default\n\n"
+            << "                   CIPHER can be caesar, playfair, or vigenere - caesar is the default\n\n"
             << "  -k KEY           Specify the cipher KEY\n"
             << "                   A null key, i.e. no encryption, is used if not supplied\n\n"
             << "  --encrypt        Will use the cipher to encrypt the input text (default behaviour)\n\n"
@@ -100,6 +101,11 @@ int main(int argc, char* argv[])
         }
         case CipherType::Playfair: {
             PlayfairCipher cipher{settings.cipherKey[0]};
+            outputText = cipher.applyCipher(inputText, settings.cipherMode);
+            break;
+        }
+        case CipherType::Vigenere: {
+            VigenereCipher cipher{settings.cipherKey[0]};
             outputText = cipher.applyCipher(inputText, settings.cipherMode);
             break;
         }

@@ -68,7 +68,7 @@ Available options:
                    Stdout will be used if not supplied
 
   -c CIPHER        Specify the cipher to be used to perform the encryption/decryption
-                   CIPHER can be caesar or playfair - caesar is the default
+                   CIPHER can be caesar, playfair, or vigenere - caesar is the default
 
   -k KEY           Specify the cipher KEY
                    A null key, i.e. no encryption, is used if not supplied
@@ -88,7 +88,7 @@ classical ciphers, it is transliterated using the following rules:
 - All other characters (punctuation) are discarded
 
 The results of this transliteration are then passed to the cipher.
-At present only the Caesar cipher is supported.
+The Caesar, Playfair, and Vigenere ciphers are supported.
 
 The result of applying the cipher will then be written to stdout or to the
 file supplied with the `-o` option.
@@ -115,7 +115,9 @@ file supplied with the `-o` option.
     │   ├── ProcessCommandLine.cpp
     │   ├── ProcessCommandLine.hpp
     │   ├── TransformChar.cpp
-    │   └── TransformChar.hpp
+    │   ├── TransformChar.hpp
+    │   ├── VigenereCipher.cpp
+    │   └── VigenereCipher.hpp
     ├── mpags-cipher.cpp                Main program C++ source file
     ├── README.md                       This file, describes the project
     └── Testing                         Subdirectory for testing the MPAGSCipher library
