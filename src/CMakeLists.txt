@@ -3,7 +3,7 @@
 
 # - Set CMake requirements then declare project
 cmake_minimum_required(VERSION 3.2)
-project(MPAGSCipher VERSION 0.4.0)
+project(MPAGSCipher VERSION 0.5.0)
 
 # - When Makefiles are generated, output all command lines by default
 #   Do this to begin with so it's easy to see what compiler command/flags
