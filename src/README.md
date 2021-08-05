@@ -108,6 +108,8 @@ file supplied with the `-o` option.
     │   ├── CaesarCipher.cpp
     │   ├── CaesarCipher.hpp
     │   ├── Cipher.hpp
+    │   ├── CipherFactory.cpp
+    │   ├── CipherFactory.hpp
     │   ├── CipherMode.hpp
     │   ├── CipherType.hpp
     │   ├── CMakeLists.txt
