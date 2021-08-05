@@ -107,6 +107,7 @@ file supplied with the `-o` option.
     ├── MPAGSCipher                     Subdirectory for MPAGSCipher library code
     │   ├── CaesarCipher.cpp
     │   ├── CaesarCipher.hpp
+    │   ├── Cipher.hpp
     │   ├── CipherMode.hpp
     │   ├── CipherType.hpp
     │   ├── CMakeLists.txt
