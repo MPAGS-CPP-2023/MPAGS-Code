@@ -170,7 +170,7 @@ int main(int argc, char* argv[])
                 // as otherwise it will have changed in the next loop iteration
                 futures.push_back(std::async(
                     std::launch::async, [&threadText, i, &cipher, &settings]() {
-                        return cipher->applyCipher(threadText[i],
+                        return cipher->applyCipher(std::move(threadText[i]),
                                                    settings.cipherMode);
                     }));
             }
@@ -198,7 +198,7 @@ int main(int argc, char* argv[])
         } else {
             // For the other ciphers, run synchronously
             // Run the cipher on the input text, specifying whether to encrypt/decrypt
-            cipherText = cipher->applyCipher(cipherText, settings.cipherMode);
+            cipherText = cipher->applyCipher(std::move(cipherText), settings.cipherMode);
         }
     }
 

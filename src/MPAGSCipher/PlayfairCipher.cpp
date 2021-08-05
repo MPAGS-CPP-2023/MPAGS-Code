@@ -60,44 +60,58 @@ void PlayfairCipher::setKey(const std::string& key)
 std::string PlayfairCipher::applyCipher(const std::string& inputText,
                                         const CipherMode cipherMode) const
 {
-    // Create the output string, initially a copy of the input text
     std::string outputText{inputText};
 
+    this->applyCipherImpl(outputText, cipherMode);
+
+    return outputText;
+}
+
+std::string PlayfairCipher::applyCipher(std::string&& inputText,
+                                        const CipherMode cipherMode) const
+{
+    std::string outputText{std::move(inputText)};
+
+    this->applyCipherImpl(outputText, cipherMode);
+
+    return outputText;
+}
+
+void PlayfairCipher::applyCipherImpl(std::string& inputText,
+                                     const CipherMode cipherMode) const
+{
     // Change J -> I
-    std::transform(std::begin(outputText), std::end(outputText),
-                   std::begin(outputText),
+    std::transform(std::begin(inputText), std::end(inputText),
+                   std::begin(inputText),
                    [](char c) { return (c == 'J') ? 'I' : c; });
 
     // Find repeated characters (but only when they occur within a bigram)
     // and add an X (or a Q for repeated X's) between them
-    std::string tmpText{""};
+    std::string outputText{""};
     // Reserve space to hold the size of the input text plus a bit of headroom
-    tmpText.reserve(outputText.size() * 1.1);
-    for (std::size_t i{0}; i < outputText.size(); i += 2) {
+    outputText.reserve(inputText.size() * 1.1);
+    for (std::size_t i{0}; i < inputText.size(); i += 2) {
         // Always add the first of the bigram
-        tmpText += outputText[i];
-        if (i + 1 == outputText.size()) {
+        outputText += inputText[i];
+        if (i + 1 == inputText.size()) {
             // If this was the last character then we've ended up with an odd-length input
             // so add Z to the end (or X if the last character is a Z)
-            tmpText += (outputText[i] == 'Z') ? 'X' : 'Z';
+            outputText += (inputText[i] == 'Z') ? 'X' : 'Z';
             // then explicitly break out of the loop since we've finished
             break;
-        } else if (outputText[i] != outputText[i + 1]) {
+        } else if (inputText[i] != inputText[i + 1]) {
             // If the two characters in the bigram are different,
             // simply add the second one as well
-            tmpText += outputText[i + 1];
+            outputText += inputText[i + 1];
         } else {
             // Otherwise, if two characters in the bigram are the same,
             // we instead add an X (or a Q if the first was an X)
-            tmpText += (outputText[i] == 'X') ? 'Q' : 'X';
+            outputText += (inputText[i] == 'X') ? 'Q' : 'X';
             // Need to decrement i since the second character in this bigram now
             // becomes the first character in the next one
             --i;
         }
     }
-
-    // Swap the contents of the original and modified strings - cheaper than assignment
-    outputText.swap(tmpText);
 
     // Depending on encryption/decryption mode, set whether to increment or
     // decrement the column/row index (modulo the grid dimension)
@@ -137,5 +151,5 @@ std::string PlayfairCipher::applyCipher(const std::string& inputText,
     }
 
     // Return the output text
-    return outputText;
+    inputText.swap(outputText);
 }

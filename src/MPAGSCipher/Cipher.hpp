@@ -28,11 +28,25 @@ class Cipher {
     /**
      * \brief Apply the cipher to the provided text
      *
+     * This version copies the input string
+     *
      * \param inputText the text to encrypt or decrypt
      * \param cipherMode whether to encrypt or decrypt the input text
      * \return the result of applying the cipher to the input text
      */
     virtual std::string applyCipher(const std::string& inputText,
+                                    const CipherMode cipherMode) const = 0;
+
+    /**
+     * \brief Apply the cipher to the provided text
+     *
+     * This version moves the input string
+     *
+     * \param inputText the text to encrypt or decrypt
+     * \param cipherMode whether to encrypt or decrypt the input text
+     * \return the result of applying the cipher to the input text
+     */
+    virtual std::string applyCipher(std::string&& inputText,
                                     const CipherMode cipherMode) const = 0;
 
     /**

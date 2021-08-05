@@ -37,37 +37,55 @@ CaesarCipher::CaesarCipher(const std::string& key) : key_{0}
 std::string CaesarCipher::applyCipher(const std::string& inputText,
                                       const CipherMode cipherMode) const
 {
-    // Create the output string
-    std::string outputText;
+    std::string outputText{inputText};
 
-    // Loop over the input text
-    char processedChar{'x'};
-    for (const auto& origChar : inputText) {
-        // For each character in the input text, find the corresponding position in
-        // the alphabet by using an indexed loop over the alphabet container
-        for (std::size_t i{0}; i < Alphabet::size; ++i) {
-            if (origChar == Alphabet::alphabet[i]) {
-                // Apply the appropriate shift (depending on whether we're encrypting
-                // or decrypting) and determine the new character
-                // Can then break out of the loop over the alphabet
-                switch (cipherMode) {
-                    case CipherMode::Encrypt:
-                        processedChar =
-                            Alphabet::alphabet[(i + key_) % Alphabet::size];
-                        break;
-                    case CipherMode::Decrypt:
-                        processedChar =
-                            Alphabet::alphabet[(i + Alphabet::size - key_) %
-                                               Alphabet::size];
-                        break;
-                }
-                break;
-            }
-        }
-
-        // Add the new character to the output text
-        outputText += processedChar;
-    }
+    this->applyCipherImpl(outputText, cipherMode);
 
     return outputText;
+}
+
+std::string CaesarCipher::applyCipher(std::string&& inputText,
+                                      const CipherMode cipherMode) const
+{
+    std::string outputText{std::move(inputText)};
+
+    this->applyCipherImpl(outputText, cipherMode);
+
+    return outputText;
+}
+
+char CaesarCipher::applyCipher(const char inputChar,
+                               const CipherMode cipherMode) const
+{
+    // Determine the appropriate shift
+    // (depending on whether we're encrypting or decrypting)
+    const std::size_t shift{
+        (cipherMode == CipherMode::Encrypt) ? key_ : Alphabet::size - key_};
+
+    return this->shiftedChar(inputChar, shift);
+}
+
+void CaesarCipher::applyCipherImpl(std::string& inputText,
+                                   const CipherMode cipherMode) const
+{
+    // Determine the appropriate shift
+    // (depending on whether we're encrypting or decrypting)
+    const std::size_t shift{
+        (cipherMode == CipherMode::Encrypt) ? key_ : Alphabet::size - key_};
+
+    // Loop over the input text
+    for (auto& currentChar : inputText) {
+        // Determine the new character and update in-place
+        currentChar = this->shiftedChar(currentChar, shift);
+    }
+}
+
+char CaesarCipher::shiftedChar(const char inputChar,
+                               const std::size_t shift) const
+{
+    // Find the corresponding position in the alphabet container
+    const std::size_t index{Alphabet::alphabet.find(inputChar)};
+
+    // Determine the new character and return it
+    return Alphabet::alphabet[(index + shift) % Alphabet::size];
 }

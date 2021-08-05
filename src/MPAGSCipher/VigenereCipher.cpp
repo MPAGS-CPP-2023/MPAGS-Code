@@ -52,14 +52,29 @@ void VigenereCipher::setKey(const std::string& key)
 std::string VigenereCipher::applyCipher(const std::string& inputText,
                                         const CipherMode cipherMode) const
 {
+    std::string outputText{inputText};
+
+    this->applyCipherImpl(outputText, cipherMode);
+
+    return outputText;
+}
+
+std::string VigenereCipher::applyCipher(std::string&& inputText,
+                                        const CipherMode cipherMode) const
+{
+    std::string outputText{std::move(inputText)};
+
+    this->applyCipherImpl(outputText, cipherMode);
+
+    return outputText;
+}
+
+void VigenereCipher::applyCipherImpl(std::string& inputText,
+                                     const CipherMode cipherMode) const
+{
     // Store the size of the input text and of the key
     const std::size_t inputSize{inputText.size()};
     const std::size_t keySize{key_.size()};
-
-    // Create the output string, reserving space for
-    // as many characters as are in the input text
-    std::string outputText;
-    outputText.reserve(inputSize);
 
     // Loop through the text
     for (std::size_t i{0}; i < inputSize; ++i) {
@@ -71,11 +86,7 @@ std::string VigenereCipher::applyCipher(const std::string& inputText,
         const CaesarCipher& cipher{charLookup_.at(keyChar)};
 
         // Use it to encrypt/decrypt the character of the text
-        // and put the new character into the output
-        const std::string oldChar{inputText[i]};
-        outputText += cipher.applyCipher(oldChar, cipherMode);
+        // and replace it with the new character
+        inputText[i] = cipher.applyCipher(inputText[i], cipherMode);
     }
-
-    // Return the output text
-    return outputText;
 }
