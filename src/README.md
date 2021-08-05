@@ -51,34 +51,43 @@ executable can then be run directly, and provides the following command
 line options:
 ```
 $ ./mpags-cipher --help
-Usage: mpags-cipher [-i <file>] [-o <file>] [-k <key>] [--encrypt/--decrypt]
+Usage: mpags-cipher [-i/--infile <file>] [-o/--outfile <file>] [-c/--cipher <cipher>] [-k/--key <key>] [--encrypt/--decrypt]
 
 Encrypts/Decrypts input alphanumeric text using classical ciphers
 
 Available options:
 
-  -h|--help        Print this help message and exit
+  -h|--help
+                      Print this help message and exit
 
-  --version        Print version information
+  -v|--version
+                      Print version information
 
-  -i FILE          Read text to be processed from FILE
-                   Stdin will be used if not supplied
+  -i|--infile FILE
+                      Read text to be processed from FILE
+                      Stdin will be used if not supplied
 
-  -o FILE          Write processed text to FILE
-                   Stdout will be used if not supplied
+  -o|--outfile FILE
+                      Write processed text to FILE
+                      Stdout will be used if not supplied
 
-  --multi-cipher N Specify the number of ciphers to be used in sequence
-                   N should be a positive integer - defaults to 1
+  --multi-cipher N
+                      Specify the number of ciphers to be used in sequence
+                      N should be a positive integer - defaults to 1
 
-  -c CIPHER        Specify the cipher to be used to perform the encryption/decryption
-                   CIPHER can be caesar, playfair, or vigenere - caesar is the default
+  -c|--cipher CIPHER
+                      Specify the cipher to be used to perform the encryption/decryption
+                      CIPHER can be caesar, playfair or vigenere - caesar is the default
 
-  -k KEY           Specify the cipher KEY
-                   A null key, i.e. no encryption, is used if not supplied
+  -k|--key KEY
+                      Specify the cipher KEY
+                      A null key, i.e. no encryption, is used if not supplied
 
-  --encrypt        Will use the cipher to encrypt the input text (default behaviour)
+  --encrypt
+                      Will use the cipher to encrypt the input text (default behaviour)
 
-  --decrypt        Will use the cipher to decrypt the input text
+  --decrypt
+                      Will use the cipher to decrypt the input text
 ```
 
 If no input file is supplied, `mpags-cipher` will wait for user input
