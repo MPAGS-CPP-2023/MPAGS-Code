@@ -128,7 +128,8 @@ file supplied with the `-o` option.
         ├── testHello.cpp
         ├── testPlayfairCipher.cpp
         ├── testProcessCommandLine.cpp
-        └── testTransformChar.cpp
+        ├── testTransformChar.cpp
+        └── testVigenereCipher.cpp
 ```
 
 ## Testing the MPAGSCipher library

@@ -1,8 +1,10 @@
 #ifndef MPAGSCIPHER_VIGENERECIPHER_HPP
 #define MPAGSCIPHER_VIGENERECIPHER_HPP
 
+#include "CaesarCipher.hpp"
 #include "CipherMode.hpp"
 
+#include <map>
 #include <string>
 
 /**
@@ -43,6 +45,9 @@ class VigenereCipher {
   private:
     /// The cipher key
     std::string key_{""};
+
+    /// Lookup table to go from the character to the corresponding Caesar cipher
+    std::map<char, CaesarCipher> charLookup_;
 };
 
 #endif
