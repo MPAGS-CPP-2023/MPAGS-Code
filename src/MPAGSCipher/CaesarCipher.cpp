@@ -15,28 +15,22 @@ CaesarCipher::CaesarCipher(const std::string& key) : key_{0}
     if (!key.empty()) {
         // First, explicitly check for negative numbers - these will convert successfully but will not lead to expected results
         if (key.front() == '-') {
-            std::cerr
-                << "[error] cipher key must be an unsigned long integer for Caesar cipher,\n"
-                << "        the supplied key (" << key
-                << ") could not be successfully converted" << std::endl;
-            return;
+            throw InvalidKey(
+                "Caesar cipher requires a positive long integer key, the supplied key (" +
+                key + ") could not be successfully converted");
         }
         // The conversion function will throw one of two possible exceptions
         // if the string does not represent a valid unsigned long integer
         try {
             key_ = std::stoul(key) % Alphabet::size;
         } catch (const std::invalid_argument&) {
-            std::cerr
-                << "[error] cipher key must be an unsigned long integer for Caesar cipher,\n"
-                << "        the supplied key (" << key
-                << ") could not be successfully converted" << std::endl;
-            return;
+            throw InvalidKey(
+                "Caesar cipher requires a positive long integer key, the supplied key (" +
+                key + ") could not be successfully converted");
         } catch (const std::out_of_range&) {
-            std::cerr
-                << "[error] cipher key must be an unsigned long integer for Caesar cipher,\n"
-                << "        the supplied key (" << key
-                << ") could not be successfully converted" << std::endl;
-            return;
+            throw InvalidKey(
+                "Caesar cipher requires a positive long integer key, the supplied key (" +
+                key + ") could not be successfully converted");
         }
     }
 }
