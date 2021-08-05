@@ -1,7 +1,6 @@
 #include "CaesarCipher.hpp"
 #include "Alphabet.hpp"
 
-#include <iostream>
 #include <string>
 
 CaesarCipher::CaesarCipher(const std::size_t key) : key_{key % Alphabet::size}

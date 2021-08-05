@@ -2,7 +2,6 @@
 #include "Alphabet.hpp"
 
 #include <algorithm>
-#include <iostream>
 #include <string>
 
 VigenereCipher::VigenereCipher(const std::string& key)
