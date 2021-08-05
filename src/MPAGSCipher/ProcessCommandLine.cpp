@@ -39,29 +39,32 @@ bool processCommandLine(const std::vector<std::string>& cmdLineArgs,
                 processStatus = false;
                 break;
             } else {
-                // Before doing the conversion we should check that the string contains a
-                // valid positive integer.
-                // Here we do that by looping through each character and checking that it
-                // is a digit. What is rather hard to check is whether the number is too
-                // large to be represented by an unsigned long, so we've omitted that for
-                // the time being.
-                // (Since the conversion function std::stoul will throw an exception if the
-                // string does not represent a valid unsigned long, we could check for and
-                // handle that instead but we only cover exceptions very briefly on the
-                // final day of this course - they are a very complex area of C++ that
-                // could take an entire course on their own!)
                 const std::string& arg{cmdLineArgs[i + 1]};
-                for (const auto& elem : arg) {
-                    if (!std::isdigit(elem)) {
-                        std::cerr
-                            << "[error] --multi-cipher requires a positive integer argument,\n"
-                            << "        the supplied string (" << arg
-                            << ") could not be successfully converted"
-                            << std::endl;
-                        return false;
-                    }
+                // First, explicitly check for negative numbers - these will convert successfully but will not lead to expected results
+                if (arg.front() == '-') {
+                    std::cerr
+                        << "[error] --multi-cipher requires a positive integer argument,\n"
+                        << "        the supplied string (" << arg
+                        << ") could not be successfully converted" << std::endl;
+                    return false;
                 }
-                nExpectedCiphers = std::stoul(arg);
+                // The conversion function will throw one of two possible exceptions
+                // if the string does not represent a valid unsigned long integer
+                try {
+                    nExpectedCiphers = std::stoul(arg);
+                } catch (const std::invalid_argument&) {
+                    std::cerr
+                        << "[error] --multi-cipher requires a positive integer argument,\n"
+                        << "        the supplied string (" << arg
+                        << ") could not be successfully converted" << std::endl;
+                    return false;
+                } catch (const std::out_of_range&) {
+                    std::cerr
+                        << "[error] --multi-cipher requires a positive integer argument,\n"
+                        << "        the supplied string (" << arg
+                        << ") could not be successfully converted" << std::endl;
+                    return false;
+                }
                 settings.cipherType.reserve(nExpectedCiphers);
                 settings.cipherKey.reserve(nExpectedCiphers);
                 ++i;
