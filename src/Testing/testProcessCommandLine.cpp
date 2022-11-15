@@ -152,3 +152,56 @@ TEST_CASE("Cipher type declared with Vigenere cipher")
     REQUIRE(settings.cipherType.size() == 1);
     REQUIRE(settings.cipherType[0] == CipherType::Vigenere);
 }
+
+TEST_CASE("Multi-cipher with no following argument")
+{
+    ProgramSettings settings{false, false, "", "", {}, {}, CipherMode::Encrypt};
+    const std::vector<std::string> cmdLine{"mpags-cipher", "--multi-cipher"};
+    const bool res{processCommandLine(cmdLine, settings)};
+
+    REQUIRE(!res);
+}
+
+TEST_CASE("Multi-cipher with invalid following argument")
+{
+    ProgramSettings settings{false, false, "", "", {}, {}, CipherMode::Encrypt};
+    const std::vector<std::string> cmdLine{"mpags-cipher", "--multi-cipher", "a"};
+    const bool res{processCommandLine(cmdLine, settings)};
+
+    REQUIRE(!res);
+}
+
+TEST_CASE("Multi-cipher with mismatching number of cipher-type/keys specified")
+{
+    ProgramSettings settings{false, false, "", "", {}, {}, CipherMode::Encrypt};
+    const std::vector<std::string> cmdLine{
+        "mpags-cipher", "--multi-cipher", "2", "-c", "caesar", "-k", "23"};
+    const bool res{processCommandLine(cmdLine, settings)};
+
+    REQUIRE(!res);
+}
+
+TEST_CASE("Multi-cipher with matching number of cipher-type/keys specified")
+{
+    ProgramSettings settings{false, false, "", "", {}, {}, CipherMode::Encrypt};
+    const std::vector<std::string> cmdLine{"mpags-cipher",
+                                           "--multi-cipher",
+                                           "2",
+                                           "-c",
+                                           "caesar",
+                                           "-k",
+                                           "23",
+                                           "-c",
+                                           "playfair",
+                                           "-k",
+                                           "playfairexample"};
+    const bool res{processCommandLine(cmdLine, settings)};
+
+    REQUIRE(res);
+    REQUIRE(settings.cipherType.size() == 2);
+    REQUIRE(settings.cipherType[0] == CipherType::Caesar);
+    REQUIRE(settings.cipherType[1] == CipherType::Playfair);
+    REQUIRE(settings.cipherKey.size() == 2);
+    REQUIRE(settings.cipherKey[0] == "23");
+    REQUIRE(settings.cipherKey[1] == "playfairexample");
+}

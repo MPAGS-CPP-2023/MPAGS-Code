@@ -67,6 +67,9 @@ Available options:
   -o FILE          Write processed text to FILE
                    Stdout will be used if not supplied
 
+  --multi-cipher N Specify the number of ciphers to be used in sequence
+                   N should be a positive integer - defaults to 1
+
   -c CIPHER        Specify the cipher to be used to perform the encryption/decryption
                    CIPHER can be caesar, playfair, or vigenere - caesar is the default
 

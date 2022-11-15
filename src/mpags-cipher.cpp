@@ -4,7 +4,7 @@
 #include "ProcessCommandLine.hpp"
 #include "TransformChar.hpp"
 
-#include <cctype>
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -41,6 +41,8 @@ int main(int argc, char* argv[])
             << "  -o FILE          Write processed text to FILE\n"
             << "                   Stdout will be used if not supplied\n\n"
             << "                   Stdout will be used if not supplied\n\n"
+            << "  --multi-cipher N Specify the number of ciphers to be used in sequence\n"
+            << "                   N should be a positive integer - defaults to 1"
             << "  -c CIPHER        Specify the cipher to be used to perform the encryption/decryption\n"
             << "                   CIPHER can be caesar, playfair, or vigenere - caesar is the default\n\n"
             << "  -k KEY           Specify the cipher KEY\n"
@@ -63,7 +65,7 @@ int main(int argc, char* argv[])
 
     // Initialise variables
     char inputChar{'x'};
-    std::string inputText;
+    std::string cipherText;
 
     // Read in user input from stdin/file
     if (!settings.inputFile.empty()) {
@@ -77,31 +79,42 @@ int main(int argc, char* argv[])
 
         // Loop over each character from the file
         while (inputStream >> inputChar) {
-            inputText += transformChar(inputChar);
+            cipherText += transformChar(inputChar);
         }
 
     } else {
         // Loop over each character from user input
         // (until Return then CTRL-D (EOF) pressed)
         while (std::cin >> inputChar) {
-            inputText += transformChar(inputChar);
+            cipherText += transformChar(inputChar);
         }
     }
 
-    // Request construction of the appropriate cipher
-    auto cipher =
-        CipherFactory::makeCipher(settings.cipherType[0], settings.cipherKey[0]);
+    // Request construction of the appropriate cipher(s)
+    std::vector<std::unique_ptr<Cipher>> ciphers;
+    std::size_t nCiphers{settings.cipherType.size()};
+    ciphers.reserve(nCiphers);
+    for (std::size_t iCipher{0}; iCipher < nCiphers; ++iCipher) {
+        ciphers.push_back(CipherFactory::makeCipher(
+            settings.cipherType[iCipher], settings.cipherKey[iCipher]));
 
-    // Check that the cipher was constructed successfully
-    if (!cipher) {
-        std::cerr << "[error] problem constructing requested cipher"
-                  << std::endl;
-        return 1;
+        // Check that the cipher was constructed successfully
+        if (!ciphers.back()) {
+            std::cerr << "[error] problem constructing requested cipher"
+                      << std::endl;
+            return 1;
+        }
     }
 
-    // Run the cipher on the input text, specifying whether to encrypt/decrypt
-    const std::string outputText{
-        cipher->applyCipher(inputText, settings.cipherMode)};
+    // If we are decrypting, we need to reverse the order of application of the ciphers
+    if (settings.cipherMode == CipherMode::Decrypt) {
+        std::reverse(ciphers.begin(), ciphers.end());
+    }
+
+    // Run the cipher(s) on the input text, specifying whether to encrypt/decrypt
+    for (const auto& cipher : ciphers) {
+        cipherText = cipher->applyCipher(cipherText, settings.cipherMode);
+    }
 
     // Output the encrypted/decrypted text to stdout/file
     if (!settings.outputFile.empty()) {
@@ -114,11 +127,11 @@ int main(int argc, char* argv[])
         }
 
         // Print the encrypted/decrypted text to the file
-        outputStream << outputText << std::endl;
+        outputStream << cipherText << std::endl;
 
     } else {
         // Print the encrypted/decrypted text to the screen
-        std::cout << outputText << std::endl;
+        std::cout << cipherText << std::endl;
     }
 
     // No requirement to return from main, but we do so for clarity
