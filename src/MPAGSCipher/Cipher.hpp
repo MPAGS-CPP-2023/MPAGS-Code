@@ -2,6 +2,7 @@
 #define MPAGSCIPHER_CIPHER_HPP
 
 #include "CipherMode.hpp"
+#include "CipherType.hpp"
 
 #include <string>
 
@@ -32,6 +33,13 @@ class Cipher {
      */
     virtual std::string applyCipher(const std::string& inputText,
                                     const CipherMode cipherMode) const = 0;
+
+    /**
+     * \brief Determine the type of cipher algorithm
+     *
+     * \return the cipher type
+     */
+    virtual CipherType type() const = 0;
 
     /// Default constructor
     Cipher() = default;

@@ -3,6 +3,7 @@
 
 #include "Cipher.hpp"
 #include "CipherMode.hpp"
+#include "CipherType.hpp"
 
 #include <cstddef>
 #include <string>
@@ -42,6 +43,13 @@ class CaesarCipher : public Cipher {
      */
     std::string applyCipher(const std::string& inputText,
                             const CipherMode cipherMode) const override;
+
+    /**
+     * \brief Determine the type of cipher algorithm
+     *
+     * \return the cipher type
+     */
+    CipherType type() const override { return CipherType::Caesar; }
 
   private:
     /// The cipher key, essentially a constant shift to be applied

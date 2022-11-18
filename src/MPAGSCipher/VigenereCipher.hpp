@@ -4,6 +4,7 @@
 #include "CaesarCipher.hpp"
 #include "Cipher.hpp"
 #include "CipherMode.hpp"
+#include "CipherType.hpp"
 
 #include <map>
 #include <string>
@@ -42,6 +43,13 @@ class VigenereCipher : public Cipher {
      */
     std::string applyCipher(const std::string& inputText,
                             const CipherMode cipherMode) const override;
+
+    /**
+     * \brief Determine the type of cipher algorithm
+     *
+     * \return the cipher type
+     */
+    CipherType type() const override { return CipherType::Vigenere; }
 
   private:
     /// The cipher key
