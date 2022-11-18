@@ -26,11 +26,11 @@ struct ProgramSettings {
     /// Name of the output file
     std::string outputFile;
     /// Key to be used in encrypting/decrypting routine
-    std::string cipherKey;
+    std::vector<std::string> cipherKey;
+    /// Flag indicating which cipher to use (e.g. Caesar, Playfair, etc.)
+    std::vector<CipherType> cipherType;
     /// Flag indicating the mode in which the cipher should run (i.e. encrypt or decrypt)
     CipherMode cipherMode;
-    /// Flag indicating which cipher to use (e.g. Caesar, Playfair, etc.)
-    CipherType cipherType;
 };
 
 /**
